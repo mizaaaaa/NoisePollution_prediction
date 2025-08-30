@@ -10,26 +10,7 @@ This project leverages machine learning to predict urban noise pollution levels 
 - Visualizes trends and model performance
 - Simple training and prediction workflow
 
-## Usage
 
-1. Clone the repo:
-    ```bash
-    git clone https://github.com/mizaaaaa/NoisePollution_prediction.git
-    cd NoisePollution_prediction
-    ```
-2. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-3. Add your dataset to the `data/` folder.
-4. Train the model:
-    ```bash
-    python src/train.py
-    ```
-5. Predict noise levels:
-    ```bash
-    python src/predict.py --input your_input.csv
-    ```
 
 ## Tech Stack
 
