@@ -10,12 +10,20 @@ This project leverages machine learning to predict urban noise pollution levels 
 - Visualizes trends and model performance
 - Simple training and prediction workflow
 
+## ⚙️ Tools & Libraries
+- Python: **Pandas, NumPy**  
+- Visualization: **Matplotlib, Seaborn**  
+- ML: **scikit-learn**  
+- Environment: **Google Colab**
+
+## 🔎 Workflow
+1. **Data Cleaning** – Handled missing values and merged datasets.  
+2. **EDA** – Summary statistics and category analysis.  
+3. **Visualization** – Day/Night distributions and city/state trends.  
+4. **Model Training** – Implemented multiple ML models.  
+5. **Evaluation** – Accuracy, Classification Report, Confusion Matrix.  
+6. **Comparison** – Performance table and visualization.
 
 
-## Tech Stack
 
-Python, TensorFlow/Keras, NumPy, Pandas, Matplotlib
-
-## License
-
-MIT
+👨‍💻 Developed by **Miza**, B.Tech Final Year IT Student
