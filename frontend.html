@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Noise Pollution Predictor</title>
+</head>
+<body>
+  <h2>Noise Pollution Prediction</h2>
+  <form id="predictForm">
+    Year: <input type="number" name="Year" value="2025"><br>
+    Month: <input type="number" name="Month" value="9"><br>
+    Day: <input type="number" name="Day" value="65"><br>
+    Night: <input type="number" name="Night" value="55"><br>
+    City: <input type="text" name="City" value="Delhi"><br>
+    State: <input type="text" name="State" value="Delhi"><br>
+    Type: <input type="text" name="Type" value="Residential"><br>
+    <button type="submit">Predict</button>
+  </form>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("predictForm").onsubmit = async function(e) {
+      e.preventDefault();
+
+      let data = {};
+      [...new FormData(e.target)].forEach(([k, v]) => {
+        if(k === "Year" || k === "Month" || k === "Day" || k === "Night"){
+          data[k] = Number(v);  // convert numeric fields
+        } else {
+          data[k] = v;          // keep categorical fields as string
+        }
+      });
+
+      let res = await fetch("http://127.0.0.1:5000/predict", { // Flask backend URL
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      });
+
+      let out = await res.json();
+      document.getElementById("result").innerText = "Prediction: " + (out.prediction !== undefined ? out.prediction : out.error);
+    }
+  </script>
+</body>
+</html>
