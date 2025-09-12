@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoiseSense - Noise Pollution Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/c41d3cce75.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* CSS Variables for easy theme management */
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --secondary-color: #f3f4f6;
+      --text-color: #1f2937;
+      --label-color: #4b5563;
+      --border-color: #d1d5db;
+      --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --card-radius: 16px;
+    }
+
+    /* General Styles & Resets */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      /* ✨ NEW: Added a more attractive gradient background */
+      background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    /* Main Container Card */
+    .container {
+      background: #fff;
+      padding: 2rem 2.5rem;
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
+      width: 100%;
+      max-width: 500px;
+      transition: transform 0.3s ease;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    /* ✨ NEW: Added a logo icon for a more impressive look */
+    .logo-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        line-height: 1;
+    }
+
+    .header h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--text-color);
+    }
+
+    .header p {
+      color: var(--label-color);
+      margin-top: 0.5rem;
+    }
+    
+    /* Form Styles */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
+    
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--label-color);
+      font-size: 0.875rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+
+    /* Prediction Button */
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary-color);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.1s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: var(--primary-hover);
+    }
+    
+    button:active {
+        transform: scale(0.98);
+    }
+
+    /* Result Display */
+    #result {
+      margin-top: 2rem;
+      padding: 1.25rem;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 500;
+      display: none; /* Initially hidden */
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .result-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    #result.low { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    #result.medium { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+    #result.high { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    
+    /* Loader Spinner */
+    .loader {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      body {
+        padding: 0.5rem;
+      }
+      .container {
+        padding: 1.5rem;
+      }
+      .header h1 {
+        font-size: 1.75rem;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-icon">
+        <i class="fa-solid fa-wave-square"></i>
+      </div>
+      <h1>NoiseSense</h1>
+      <p class="subheading"><i>AI Powered Noise Pollution Prediction System</i></p>
+
+      <br><p2>Enter the details below to predict noise pollution levels.</p2>
+      
+    </div>
+
+    <form id="predictionForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="year">Year</label>
+          <input type="number" id="year" name="Year" min="2000" max="2100" required placeholder="e.g., 2024" />
+        </div>
+
+        <div class="form-group">
+          <label for="month">Month</label>
+          <input type="number" id="month" name="Month" min="1" max="12" required placeholder="e.g., 12" />
+        </div>
+
+        <div class="form-group">
+          <label for="day">Day Level (dB)</label>
+          <input type="number" id="day" name="Day" min="0" required placeholder="e.g., 65"/>
+        </div>
+
+        <div class="form-group">
+          <label for="night">Night Level (dB)</label>
+          <input type="number" id="night" name="Night" min="0" required placeholder="e.g., 50" />
+        </div>
+
+        <div class="form-group full-width">
+          <label for="state">State</label>
+          <select id="state" name="State" required>
+            <option value="" disabled selected>Select a State</option>
+            <option>Delhi</option>
+            <option>Karnataka</option>
+            <option>Tamil Nadu</option>
+            <option>Maharashtra</option>
+            <option>West Bengal</option>
+            <option>Telangana</option>
+            <option>Gujarat</option>
+            <option>Rajasthan</option>
+            <option>Uttar Pradesh</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="city">City</label>
+          <select id="city" name="City" required>
+            <option value="" disabled selected>Select a City</option>
+            <option>Delhi</option>
+            <option>Bengaluru</option>
+            <option>Chennai</option>
+            <option>Mumbai</option>
+            <option>Kolkata</option>
+            <option>Hyderabad</option>
+            <option>Pune</option>
+            <option>Ahmedabad</option>
+            <option>Jaipur</option>
+            <option>Lucknow</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="type">Area Type</label>
+          <select id="type" name="Type" required>
+            <option value="" disabled selected>Select an Area Type</option>
+            <option>Residential</option>
+            <option>Commercial</option>
+            <option>Industrial</option>
+            <option>Mixed</option>
+          </select>
+        </div>
+      </div>
+      
+      <button type="submit" id="submit-btn">
+        <i class="fa-solid fa-satellite-dish"></i>
+        <span>Predict</span>
+      </button>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const predictionForm = document.getElementById("predictionForm");
+    const submitBtn = document.getElementById("submit-btn");
+    const resultDiv = document.getElementById("result");
+
+    predictionForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      // --- Start Loading State ---
+      resultDiv.style.display = "none"; // Hide previous result
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<div class="loader"></div><span>Predicting...</span>`;
+
+      const formData = {
+        Year: parseInt(document.getElementById("year").value),
+        Month: parseInt(document.getElementById("month").value),
+        Day: parseInt(document.getElementById("day").value),
+        Night: parseInt(document.getElementById("night").value),
+        State: document.getElementById("state").value,
+        City: document.getElementById("city").value,
+        Type: document.getElementById("type").value
+      };
+
+      try {
+        const response = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+
+        const resultData = await response.json();
+        
+        // Render result based on response
+        if (resultData.prediction) {
+          const prediction = resultData.prediction;
+          let icon = '';
+          if (prediction === "Low") icon = '<i class="fa-solid fa-volume-off"></i>';
+          else if (prediction === "Medium") icon = '<i class="fa-solid fa-volume-low"></i>';
+          else if (prediction === "High") icon = '<i class="fa-solid fa-volume-high"></i>';
+
+          resultDiv.className = prediction.toLowerCase();
+          resultDiv.innerHTML = `<div class="result-content">${icon}<span>Predicted Level: <strong>${prediction}</strong></span></div>`;
+        } else {
+          resultDiv.className = 'high'; // Use error styling for error message
+          resultDiv.innerHTML = `<div class="result-content"><i class="fa-solid fa-triangle-exclamation"></i><span>Error: ${resultData.error || "Unable to predict"}</span></div>`;
+        }
+        
+        resultDiv.style.display = "block";
+
+      } catch (err) {
+        resultDiv.className = 'high';
+        resultDiv.innerHTML = `<div class="result-content"><i class="fa-solid fa-server"></i><span>Error connecting to server.</span></div>`;
+        resultDiv.style.display = "block";
+      } finally {
+        // --- End Loading State ---
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i class="fa-solid fa-satellite-dish"></i><span>Predict</span>`;
+      }
+    });
+  </script>
+</body>
+</html>
