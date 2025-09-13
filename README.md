@@ -1,21 +1,28 @@
-# Noise Pollution Prediction
+# 🌍 Noise Pollution Prediction
 
-## Overview
+## 📖 Overview
+This project uses **machine learning** to predict urban noise pollution levels in India using data from **2011–2018**. By analyzing environmental and location-based factors, it reveals patterns and trends in noise levels across regions and time periods.  
 
-This project leverages machine learning to predict urban noise pollution levels in India using historical data collected from 2011 to 2018. By analyzing environmental factors and location-based information, it uncovers patterns and trends in noise levels across different regions and time periods. The model provides actionable insights that can help city planners, policymakers, and researchers design quieter, healthier urban environments. Additionally, the project enables visualization of results to support data-driven decision-making for public health and urban management.
+The model provides **actionable insights** to help city planners, policymakers, and researchers design quieter, healthier cities, while also offering simple **visualizations** for data-driven decisions in urban management.
 
-## Features
+---
 
-- Predicts noise levels from environmental and location data
-- Visualizes trends and model performance
-- Simple training and prediction workflow
+## 🚀 Features
+- Predicts noise pollution categories from environmental & location data.  
+- Identifies long-term **trends** and hotspots in urban noise.  
+- Visualization support for patterns and model accuracy.  
+- Deployed as a **Flask web app** for easy access.  
 
-## ⚙️ Tools & Libraries
-- Python: **Pandas, NumPy**  
-- Visualization: **Matplotlib, Seaborn**  
-- ML: **scikit-learn**  
-- Environment: **Google Colab**
+---
 
-  
+## 🛠️ Tools & Libraries
+- **Python**: Pandas, NumPy  
+- **Visualization**: Matplotlib, Seaborn  
+- **Machine Learning**: scikit-learn (Logistic Regression)  
+- **Web**: Flask  
+- **Environment**: Google Colab + Render (deployment)  
 
-👨‍💻 Developed by **Miza**, B.Tech Final Year IT Student
+---
+
+👨‍💻 Developed by **Miza**, Final Year B.Tech IT Student  
+
