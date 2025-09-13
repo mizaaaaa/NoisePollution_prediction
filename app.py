@@ -3,7 +3,7 @@ import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-model = joblib.load("C:\Users\lenovo\Downloads\NoisePollution_prediction\logistic_model.pkl")
+model = joblib.load("logistic_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
 app = Flask(__name__)
